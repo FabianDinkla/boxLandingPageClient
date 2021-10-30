@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+:root {
+	--pink: #a83f75;
+	--purple: #5d0f32;
+}
+
+@keyframes slideInDown {
+	0% {
+		padding-bottom: 100%;
+	}
+	100% {
+		padding-bottom: 0%;
+	}
+}
+
+body {
+	margin: 0 auto;
+	max-width: 1300px;
+}
+
+a {
+	color: rgb(227, 21, 104);
+	text-decoration: underline;
+}
+
+a:hover {
+	color: rgb(75, 201, 36);
+}
+
+.non-active-link {
+	color: rgb(227, 21, 104);
+	text-decoration: underline;
+}
+
+.non-active-link:hover {
+	color: rgb(75, 201, 36);
+}
+
+.App-title {
+	font-family: 'Roboto', sans-serif !important;
+	color: rgb(227, 21, 104) !important;
+	padding: 20px 0px 10px 0px;
+}
+
+header {
+	text-align: center;
+}
+
+header.home {
+	animation: slideInDown 1s ease-in-out;
+}
+
+hr {
+	background-color: black;
+}
+
+.box-animation-container {
+	display: flex;
+	justify-content: center;
+	max-width: 800px;
+	height: auto;
+	margin: -50px auto 0px auto;
+}
+
+.opened-container {
+	width: 100%;
+	margin: 30px auto 30px auto;
+	text-align: left;
+}
+
+.opened-container img.gift-opened {
+	width: 500px;
+}
+
+.opened-container img.gift-closed {
+	width: 400px;
+}
+.opened-container img.gift-opened {
+	width: 500px;
+}
+
+.opened-container img.pijl {
+	width: 550px;
+}
+
+.opened-container.not-found {
+	display: flex;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+}
+
+.inline-container {
+	display: flex !important;
+	display: -webkit-flex !important;
+	flex-direction: row !important;
+}
+
+.form-control {
+	padding: 0px 0px 10px 0px !important;
+}
+
+.inline-container .form-control.address .postalcode-input {
+	max-width: 90% !important;
+}
+
+.inline-container .form-control.address .house-number-input {
+	max-width: 90% !important;
+}
+
+.inline-container .form-control.address .add-on-input {
+	max-width: 100% !important;
+}
+
+.gift-form {
+	display: block !important;
+}
+
+.css-1nrlq1o-MuiFormControl-root {
+	display: block !important;
+	width: 100% !important;
+	margin: 0 !important;
+}
+
+.form-control.name {
+	width: 100% !important;
+}
+
+.form-input {
+	width: 100% !important;
+}
+
+.firstname-input {
+	width: 95% !important;
+}
+
+.preposition-input {
+	width: 100% !important;
+}
+
+.street-input {
+	width: 95% !important;
+}
+
+.city-input {
+	width: 100% !important;
+}
+
+.birthdate-input {
+	width: 95% !important;
+}
+
+.phone-input {
+	width: 100% !important;
+}
+
+.css-ahj2mt-MuiTypography-root {
+	font-size: 14px !important;
+}
+
+.css-10drtbx-MuiButtonBase-root-MuiCheckbox-root {
+	margin-top: -50px !important;
+}
+
+.submit-button {
+	width: 100% !important;
+	background-color: rgb(75, 201, 36);
+	padding: 15px 100px 15px 100px;
+	color: white;
+	font-family: 'Roboto', sans-serif !important;
+	font-weight: bold !important;
+	border: none;
+	border-radius: 5px;
+	margin-top: 20px;
+	box-shadow: 2px 0px 10px 1px rgb(172, 168, 168);
+}
+
+.submit-button:hover {
+	background-color: rgb(227, 21, 104);
+}
+
+.extra-form {
+	display: flex !important;
+	flex-direction: column !important;
+	justify-content: flex-start !important;
+	padding: 0px 80px 0px 40px;
+}
+
+.bedankt-title {
+	font-family: 'Roboto', sans-serif;
+	font-weight: bold;
+}
+
+.radio-extra-info {
+	padding: 20px 0px 00px 0px;
+}
+
+.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+	max-width: 1200px !important;
+	max-height: 520px !important;
+}
+
+.css-d3wcwz-MuiTypography-root {
+	font-size: 0.875rem !important;
+	color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.dialog-text-block {
+	font-size: 0.875rem !important;
+	color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.MuiCheckbox-root .css-i4bv87-MuiSvgIcon-root {
+	margin-top: 10px !important;
+}

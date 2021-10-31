@@ -1,6 +1,8 @@
 import Container from 'react-bootstrap/Container'
 
 const NotFound = () => {
+	const baseUrl = window.location.origin
+
 	return (
 		<>
 			<Container className='opened-container not-found'>
@@ -16,7 +18,7 @@ const NotFound = () => {
 					height='auto'
 					alt='gift opened'
 				/>
-				<a href='/'>
+				<a href={baseUrl}>
 					<button
 						className='submit-button'
 						style={{ fontSize: '20px', marginTop: '30px' }}>

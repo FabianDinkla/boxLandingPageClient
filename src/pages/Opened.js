@@ -18,6 +18,8 @@ const Opened = () => {
 		ip,
 	}
 
+	const baseUrl = window.location.origin
+
 	const getIpAddress = async () => {
 		const res = await Axios.get('https://geolocation-db.com/json/')
 		setIp(res.data.IPv4)
@@ -35,7 +37,7 @@ const Opened = () => {
 			)
 				.then((res) => {
 					if (res.status === 200) {
-						window.location.href = 'http://localhost:3000/bedankt'
+						window.location.href = baseUrl + '/bedankt'
 					} else if (res.status === 400) {
 						console.log(res.json())
 					}

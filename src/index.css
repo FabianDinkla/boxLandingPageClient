@@ -48,8 +48,14 @@ header {
 }
 
 header.home {
-	animation: slideInDown 1s ease-in-out !important;
-	-webkit-animation: slideInDown 1s ease-in-out !important;
+	-webkit-animation-name: slideInDown;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease-in-out;
+	animation-name: slideInDown;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in-out;
 }
 
 hr {

@@ -49,6 +49,7 @@ header {
 
 header.home {
 	animation: slideInDown 1s ease-in-out;
+	-webkit-animation: slideInDown 1s ease-in-out;
 }
 
 hr {

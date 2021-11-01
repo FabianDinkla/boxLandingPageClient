@@ -6,7 +6,7 @@ const BoxAnimation = ({ animationSRC }) => {
 				className='box-frame'
 				scrolling='no'
 				frameBorder='0'
-				loading='lazy'
+				loading='eager'
 				width='900px'
 				title='boxAnimation'
 				height='641px'></iframe>

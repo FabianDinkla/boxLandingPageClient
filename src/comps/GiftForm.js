@@ -264,6 +264,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						required
 						id='email'
 						fullwidth
+						type='email'
 						className='form-input'
 						value={formValues.email}
 						onChange={handleChange}

@@ -14,6 +14,15 @@
 	}
 }
 
+@-webkit-keyframes slideInDown {
+	0% {
+		padding-bottom: 100%;
+	}
+	100% {
+		padding-bottom: 0%;
+	}
+}
+
 body {
 	margin: 0 auto;
 	max-width: 1300px;

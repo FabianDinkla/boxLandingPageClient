@@ -2512,7 +2512,7 @@ const BoxAnimation = ({ animationSRC }) => {
 						playStarsDown()
 					}, 3500)
 					setTimeout(() => {
-						parent.window.location.href = '/cadeaupakket'
+						window.location.href = '/cadeaupakket'
 					}, 5500)
 				}
 			}
@@ -2924,7 +2924,7 @@ const BoxAnimation = ({ animationSRC }) => {
 		var ss = comp.getSpriteSheet()
 		var queue = evt.target
 		var ssMetadata = lib.ssMetadata
-		for (i = 0; i < ssMetadata.length; i++) {
+		for (var i = 0; i < ssMetadata.length; i++) {
 			ss[ssMetadata[i].name] = new createjs.SpriteSheet({
 				images: [queue.getResult(ssMetadata[i].name)],
 				frames: ssMetadata[i].frames,

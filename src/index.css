@@ -54,6 +54,8 @@ a:hover {
 
 header {
 	text-align: center;
+	z-index: 2;
+	position: relative;
 }
 
 header.home {
@@ -74,9 +76,9 @@ hr {
 .box-animation-container {
 	display: flex;
 	justify-content: center;
-	max-width: 800px;
+	max-width: 1000px;
 	height: auto;
-	margin: -50px auto 0px auto;
+	margin: -100px auto 0px auto;
 }
 
 .opened-container {
@@ -133,12 +135,6 @@ hr {
 	display: block !important;
 }
 
-.css-1nrlq1o-MuiFormControl-root {
-	display: block !important;
-	width: 100% !important;
-	margin: 0 !important;
-}
-
 .form-control.name {
 	width: 100% !important;
 }
@@ -169,14 +165,6 @@ hr {
 
 .phone-input {
 	width: 100% !important;
-}
-
-.css-ahj2mt-MuiTypography-root {
-	font-size: 14px !important;
-}
-
-.css-10drtbx-MuiButtonBase-root-MuiCheckbox-root {
-	margin-top: -50px !important;
 }
 
 .submit-button {
@@ -212,12 +200,12 @@ hr {
 	padding: 20px 0px 0px 0px;
 }
 
-.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
+.MuiDialog-paper {
 	max-width: 1200px !important;
 	max-height: 520px !important;
 }
 
-.css-d3wcwz-MuiTypography-root {
+.MuiTypography-body1 {
 	font-size: 0.875rem !important;
 	color: rgba(0, 0, 0, 0.6) !important;
 }
@@ -225,8 +213,4 @@ hr {
 .dialog-text-block {
 	font-size: 0.875rem !important;
 	color: rgba(0, 0, 0, 0.6) !important;
-}
-
-.MuiCheckbox-root .css-i4bv87-MuiSvgIcon-root {
-	margin-top: 10px !important;
 }

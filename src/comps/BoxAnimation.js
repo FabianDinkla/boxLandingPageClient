@@ -7,9 +7,10 @@ const BoxAnimation = ({ animationSRC }) => {
 				scrolling='no'
 				frameBorder='0'
 				loading='eager'
-				width='900px'
+				width='1000px'
 				title='boxAnimation'
-				height='641px'></iframe>
+				overflow='visible'
+				height='750px'></iframe>
 		</div>
 	)
 }

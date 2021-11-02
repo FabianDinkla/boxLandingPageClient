@@ -272,7 +272,15 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					/>
 				</FormControl>
 				<FormControlLabel
-					control={<Checkbox color='success' required={true} />}
+					control={
+						<Checkbox
+							color='success'
+							required={true}
+							sx={{
+								marginTop: '-40px',
+							}}
+						/>
+					}
 					label={
 						<div>
 							<span>

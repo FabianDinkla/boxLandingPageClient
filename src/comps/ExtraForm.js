@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Form from 'react-bootstrap/Form'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -10,9 +10,9 @@ import Radio from '@mui/material/Radio'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-const ExtraForm = ({ setSubmitted, setData }) => {
+const ExtraForm = ({ setSubmitted, setData, submitted }) => {
 	const [formValues, setFormValues] = useState({
-		kids: null,
+		kids: '',
 		pregnant: '',
 		kid1day: '',
 		kid1month: '',
@@ -37,6 +37,9 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 		dueDateYear: '',
 	})
 
+	const [errorMessage, setErrorMessage] = useState('')
+	const [displayError, setDisplayError] = useState('none')
+
 	const handleChange = (e) => {
 		e.preventDefault()
 		const { name, value } = e.target
@@ -45,9 +48,56 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		setSubmitted(true)
-		setData(formValues)
+		if (formValues.kids === undefined || !formValues.pregnant) {
+			setErrorMessage('Er zijn 1 of meer verplichte velden niet ingevuld!')
+			setDisplayError('block')
+		} else if (
+			formValues.pregnant === 'wel' &&
+			(!formValues.dueDateYear ||
+				!formValues.dueDateMonth ||
+				!formValues.dueDateDay)
+		) {
+			setErrorMessage('Er is geen uitrekendatum ingevuld!')
+			setDisplayError('block')
+		} else if (
+			(formValues.kids >= 1 &&
+				(!formValues.kid1day ||
+					!formValues.kid1month ||
+					!formValues.kid1year)) ||
+			(formValues.kids >= 2 &&
+				(!formValues.kid2day ||
+					!formValues.kid2month ||
+					!formValues.kid2year)) ||
+			(formValues.kids >= 3 &&
+				(!formValues.kid3day ||
+					!formValues.kid3month ||
+					!formValues.kid3year)) ||
+			(formValues.kids >= 4 &&
+				(!formValues.kid4day ||
+					!formValues.kid4month ||
+					!formValues.kid4year)) ||
+			(formValues.kids >= 5 &&
+				(!formValues.kid5day ||
+					!formValues.kid5month ||
+					!formValues.kid5year)) ||
+			(formValues.kids >= 6 &&
+				(!formValues.kid6day || !formValues.kid6month || !formValues.kid6year))
+		) {
+			setErrorMessage(
+				'Er zijn niet even veel geboortedata als kinderen ingevuld!'
+			)
+			setDisplayError('block')
+		} else {
+			setDisplayError('none')
+			setErrorMessage('')
+			setData(formValues)
+			setSubmitted(true)
+		}
 	}
+
+	const date = new Date()
+	const currentYear = date.getFullYear()
+	const nextYear = currentYear + 1
 
 	return (
 		<div>
@@ -55,7 +105,7 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 				<FormControl variant='standard' sx={{ minWidth: 300 }}>
 					<InputLabel>Uit hoeveel kinderen bestaat je gezin?</InputLabel>
 					<Select
-						required
+						/* required */
 						id='numberOfKids'
 						name='kids'
 						value={formValues.kids}
@@ -75,11 +125,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 1
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid1day'
-									required={formValues.kids >= 1}
+									/* required={formValues.kids >= 1} */
 									value={formValues.kid1day}
 									onChange={handleChange}
 									name='kid1day'>
@@ -118,11 +168,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid1month'
-									required={formValues.kids >= 1}
+									/* required={formValues.kids >= 1} */
 									value={formValues.kid1month}
 									onChange={handleChange}
 									name='kid1month'>
@@ -142,22 +192,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid1year'
-									required={formValues.kids >= 1}
+									/* required={formValues.kids >= 1} */
 									value={formValues.kid1year}
 									onChange={handleChange}
 									name='kid1year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -185,11 +227,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 2
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid2day'
-									required={formValues.kids >= 2}
+									/* required={formValues.kids >= 2} */
 									value={formValues.kid2day}
 									onChange={handleChange}
 									name='kid2day'>
@@ -228,11 +270,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid2month'
-									required={formValues.kids >= 2}
+									/* required={formValues.kids >= 2} */
 									value={formValues.kid2month}
 									onChange={handleChange}
 									name='kid2month'>
@@ -252,22 +294,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid2year'
-									required={formValues.kids >= 2}
+									/* required={formValues.kids >= 2} */
 									value={formValues.kid2year}
 									onChange={handleChange}
 									name='kid2year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -295,11 +329,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 3
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid3day'
-									required={formValues.kids >= 3}
+									/* required={formValues.kids >= 3} */
 									value={formValues.kid3day}
 									onChange={handleChange}
 									name='kid3day'>
@@ -338,11 +372,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid3month'
-									required={formValues.kids >= 3}
+									/* required={formValues.kids >= 3} */
 									value={formValues.kid3month}
 									onChange={handleChange}
 									name='kid3month'>
@@ -362,22 +396,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid3year'
-									required={formValues.kids >= 3}
+									/* required={formValues.kids >= 3} */
 									value={formValues.kid3year}
 									onChange={handleChange}
 									name='kid3year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -405,11 +431,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 4
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid4day'
-									required={formValues.kids >= 4}
+									/* required={formValues.kids >= 4} */
 									value={formValues.kid4day}
 									onChange={handleChange}
 									name='kid4day'>
@@ -448,11 +474,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid4month'
-									required={formValues.kids >= 4}
+									/* required={formValues.kids >= 4} */
 									value={formValues.kid4month}
 									onChange={handleChange}
 									name='kid4month'>
@@ -472,22 +498,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid4year'
-									required={formValues.kids >= 4}
+									/* required={formValues.kids >= 4} */
 									value={formValues.kid4year}
 									onChange={handleChange}
 									name='kid4year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -515,11 +533,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 5
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid5day'
-									required={formValues.kids >= 5}
+									/* required={formValues.kids >= 5} */
 									value={formValues.kid5day}
 									onChange={handleChange}
 									name='kid5day'>
@@ -558,11 +576,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid5month'
-									required={formValues.kids >= 5}
+									/* required={formValues.kids >= 5} */
 									value={formValues.kid5month}
 									onChange={handleChange}
 									name='kid5month'>
@@ -582,22 +600,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid5year'
-									required={formValues.kids >= 5}
+									/* required={formValues.kids >= 5} */
 									value={formValues.kid5year}
 									onChange={handleChange}
 									name='kid5year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -625,11 +635,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Geboortedatum kind 6
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='kid6day'
-									required={formValues.kids >= 6}
+									/* required={formValues.kids >= 6} */
 									value={formValues.kid6day}
 									onChange={handleChange}
 									name='kid6day'>
@@ -668,11 +678,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='kid6month'
-									required={formValues.kids >= 6}
+									/* required={formValues.kids >= 6} */
 									value={formValues.kid6month}
 									onChange={handleChange}
 									name='kid6month'>
@@ -692,22 +702,14 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='kid6year'
-									required={formValues.kids >= 6}
+									/* required={formValues.kids >= 6} */
 									value={formValues.kid6year}
 									onChange={handleChange}
 									name='kid6year'>
-									<MenuItem value={2000}>2000</MenuItem>
-									<MenuItem value={2001}>2001</MenuItem>
-									<MenuItem value={2002}>2002</MenuItem>
-									<MenuItem value={2003}>2003</MenuItem>
-									<MenuItem value={2004}>2004</MenuItem>
-									<MenuItem value={2005}>2005</MenuItem>
-									<MenuItem value={2006}>2006</MenuItem>
-									<MenuItem value={2007}>2007</MenuItem>
 									<MenuItem value={2008}>2008</MenuItem>
 									<MenuItem value={2009}>2009</MenuItem>
 									<MenuItem value={2010}>2010</MenuItem>
@@ -730,7 +732,7 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 					''
 				)}
 				<RadioGroup
-					required
+					/* required */
 					className='inline-container radio-extra-info'
 					value={formValues.pregnant}
 					onChange={handleChange}
@@ -753,11 +755,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							Wat is je uitrekendatum?
 						</label>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Dag</InputLabel>
 								<Select
 									id='dueDateDay'
-									required={formValues.pregnant === 'wel'}
+									/* required={formValues.pregnant === 'wel'} */
 									value={formValues.dueDateDay}
 									onChange={handleChange}
 									name='dueDateDay'>
@@ -796,11 +798,11 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Maand</InputLabel>
 								<Select
 									id='dueDateMonth'
-									required={formValues.pregnant === 'wel'}
+									/* required={formValues.pregnant === 'wel'} */
 									value={formValues.dueDateMonth}
 									onChange={handleChange}
 									name='dueDateMonth'>
@@ -820,16 +822,16 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 							</FormControl>
 						</Col>
 						<Col>
-							<FormControl variant='standard' sx={{ minWidth: 150 }}>
+							<FormControl variant='standard' sx={{ minWidth: 140 }}>
 								<InputLabel>Jaar</InputLabel>
 								<Select
 									id='dueDateYear'
-									required={formValues.pregnant === 'wel'}
+									/* required={formValues.pregnant === 'wel'} */
 									value={formValues.dueDateYear}
 									onChange={handleChange}
 									name='dueDateYear'>
-									<MenuItem value={2021}>2021</MenuItem>
-									<MenuItem value={2022}>2022</MenuItem>
+									<MenuItem value={currentYear}>{currentYear}</MenuItem>
+									<MenuItem value={nextYear}>{nextYear}</MenuItem>
 								</Select>
 							</FormControl>
 						</Col>
@@ -837,13 +839,20 @@ const ExtraForm = ({ setSubmitted, setData }) => {
 				) : (
 					''
 				)}
+				<p
+					className='errorMessage-extra'
+					style={{
+						display: displayError,
+					}}>
+					{errorMessage}
+				</p>
 				<FormControl fullwidth className='form-control'>
 					<input
 						id='submit'
 						fullwidth
 						className='submit-button'
 						type='submit'
-						value='VERZENDEN'
+						value={submitted ? 'VERZENDEN...' : 'VERZENDEN'}
 					/>
 				</FormControl>
 			</Form>

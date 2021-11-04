@@ -23,7 +23,30 @@
 	}
 }
 
-body {
+@media screen and (max-width: 767px) {
+	.box-animation-container {
+		transform: scale(1.5);
+		margin: -150px 0px -50px 0px !important;
+	}
+	.opened-container img.pijl {
+		display: none;
+	}
+	.extra-form {
+		padding: 0px !important;
+	}
+}
+
+@media screen and (min-width: 769px) and (max-width: 990px) {
+	.box-animation-container {
+		transform: scale(1.2);
+		margin: -150px 0px -50px 0px !important;
+	}
+	.extra-form {
+		padding: 0 !important;
+	}
+}
+
+body.top-body {
 	margin: 0 auto;
 	max-width: 1300px;
 }
@@ -49,7 +72,7 @@ a:hover {
 .App-title {
 	font-family: 'Roboto', sans-serif !important;
 	color: rgb(227, 21, 104) !important;
-	padding: 20px 0px 10px 0px;
+	padding: 20px 0px 20px 0px;
 }
 
 header {
@@ -70,7 +93,7 @@ header.home {
 }
 
 hr {
-	background-color: black;
+	background-color: grey;
 }
 
 .box-animation-container {
@@ -78,7 +101,7 @@ hr {
 	justify-content: center;
 	max-width: 1000px;
 	height: auto;
-	margin: -100px auto 0px auto;
+	margin: -120px auto -20px auto;
 }
 
 .opened-container {
@@ -88,18 +111,17 @@ hr {
 }
 
 .opened-container img.gift-opened {
-	width: 500px;
+	width: 100%;
+	max-width: 500px;
 }
 
 .opened-container img.gift-closed {
 	width: 400px;
 }
-.opened-container img.gift-opened {
-	width: 500px;
-}
 
 .opened-container img.pijl {
-	width: 550px;
+	width: 100%;
+	max-width: 550px;
 }
 
 .opened-container.not-found {
@@ -119,7 +141,7 @@ hr {
 	padding: 0px 0px 10px 0px !important;
 }
 
-.inline-container .form-control.address .postalcode-input {
+.inline-container .form-control.address .zipCode-input {
 	max-width: 90% !important;
 }
 
@@ -213,4 +235,27 @@ hr {
 .dialog-text-block {
 	font-size: 0.875rem !important;
 	color: rgba(0, 0, 0, 0.6) !important;
+}
+
+.MuiFormControl-root {
+	margin-top: 5px !important;
+}
+
+.errorMessage {
+	padding: 10px;
+	font-family: Roboto, sans-serif;
+	font-size: 15px;
+	background-color: #ff5252;
+	color: white;
+	border-radius: 5px;
+}
+
+.errorMessage-extra {
+	padding: 10px;
+	margin-top: 15px;
+	font-family: Roboto, sans-serif;
+	font-size: 15px;
+	background-color: #ff5252;
+	color: white;
+	border-radius: 5px;
 }

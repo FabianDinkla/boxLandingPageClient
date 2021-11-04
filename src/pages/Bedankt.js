@@ -4,6 +4,10 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
 const Bedankt = () => {
+	setTimeout(() => {
+		window.location.href = 'https://meervoormamas.nl'
+	}, 6000)
+
 	return (
 		<Container className='opened-container'>
 			<Row className='align-items-center'>

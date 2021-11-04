@@ -70,6 +70,7 @@ const Opened = () => {
 					{submittedFirst ? (
 						<ExtraForm
 							setSubmitted={setSubmittedSecond}
+							submitted={submittedSecond}
 							setData={(data) => {
 								setExtraData(data)
 							}}

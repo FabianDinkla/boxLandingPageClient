@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Form from 'react-bootstrap/Form'
 import FormControl from '@mui/material/FormControl'
 import Input from '@mui/material/Input'
@@ -17,6 +17,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
 import Button from '@mui/material/Button'
+import Axios from 'axios'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	'& .MuiDialogContent-root': {
@@ -62,7 +63,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		infix: '',
 		lastName: '',
 		zipCode: '',
-		houseNumber: null,
+		houseNumber: '',
 		addOn: '',
 		street: '',
 		city: '',
@@ -71,6 +72,54 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		email: '',
 	})
 
+	const [fieldValues, setFieldValues] = useState({
+		zip: '',
+		number: '',
+	})
+
+	const handleBlurZip = (e) => {
+		setFieldValues({ ...fieldValues, zip: e.target.value })
+	}
+
+	const handleBlurNumber = (e) => {
+		setFieldValues({ ...fieldValues, number: e.target.value })
+	}
+
+	const [errorMessage, setErrorMessage] = useState('')
+	const [displayError, setDisplayError] = useState('none')
+	const [zipNotFound, setZipNotFound] = useState(false)
+
+	useEffect(() => {
+		const fetchZipData = async () => {
+			if (formValues.zipCode != '' && formValues.houseNumber != '') {
+				const res = await Axios.get(
+					`https://postcode.tech/api/v1/postcode?postcode=${formValues.zipCode}&number=${formValues.houseNumber}`,
+					{
+						headers: {
+							Authorization: 'Bearer 3e2f03dc-8cac-4ffc-bfeb-a94b0b74d6f8',
+						},
+					}
+				)
+					.then((res) => {
+						if (res.status === 200) {
+							const resStreet = res.data.street
+							const resCity = res.data.city
+							setFormValues({ ...formValues, street: resStreet, city: resCity })
+							setDisplayError('none')
+							setErrorMessage('')
+							setZipNotFound(false)
+						}
+					})
+					.catch((err) => {
+						if (err.response.status === 404) {
+							setZipNotFound(true)
+						}
+					})
+			}
+		}
+		fetchZipData()
+	}, [fieldValues.zip, fieldValues.number])
+
 	const handleChange = (e) => {
 		e.preventDefault()
 		const { name, value } = e.target
@@ -78,9 +127,47 @@ const GiftForm = ({ setSubmitted, setData }) => {
 	}
 
 	const handleSubmit = (e) => {
+		const zipCodeRegex = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i
+		const emailRegex =
+			/^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 		e.preventDefault()
-		setSubmitted(true)
-		setData(formValues)
+		if (
+			!formValues.gender ||
+			!formValues.firstName ||
+			!formValues.lastName ||
+			!formValues.zipCode ||
+			!formValues.houseNumber ||
+			!formValues.birthdate ||
+			!formValues.phoneNumber ||
+			!formValues.email
+		) {
+			setErrorMessage('Er zijn 1 of meer verplichte velden niet ingevuld!')
+			setDisplayError('block')
+		} else if (!zipCodeRegex.test(formValues.zipCode)) {
+			setErrorMessage('De ingevulde postcode is niet geldig!')
+			setDisplayError('block')
+		} else if (formValues.phoneNumber.length != 10) {
+			setErrorMessage('Het telefoonnummer moet exact 10 cijfers lang zijn!')
+			setDisplayError('block')
+		} else if (!emailRegex.test(formValues.email)) {
+			setErrorMessage('Het e-mailadres is ongeldig!')
+			setDisplayError('block')
+		} else if (zipNotFound) {
+			setErrorMessage(
+				'Er is geen adres gevonden bij deze postcode en huisnummer combinatie!'
+			)
+			setDisplayError('block')
+		} else if (!formValues.street || !formValues.city) {
+			setErrorMessage(
+				'Er is iets misgegaan met het adres. Probeer het adres eens handmatig in te typen!'
+			)
+			setDisplayError('block')
+		} else {
+			setDisplayError('none')
+			setErrorMessage('')
+			setData(formValues)
+			setSubmitted(true)
+		}
 	}
 
 	const [open, setOpen] = useState(false)
@@ -124,20 +211,21 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						value='female'
 						control={<Radio color='success' />}
 						label='Mevr.'
+						variant='standard'
 					/>
 
 					<FormControlLabel
 						value='male'
 						control={<Radio color='success' />}
 						label='Dhr.'
+						variant='standard'
 					/>
 				</RadioGroup>
 				<br />
 				<div className='inline-container'>
-					<FormControl className='form-control name'>
+					<FormControl className='form-control name' variant='standard'>
 						<InputLabel htmlFor='firstname'>Voornaam</InputLabel>
 						<Input
-							required
 							id='firstname'
 							className='firstname-input'
 							value={formValues.firstName}
@@ -145,7 +233,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 							name='firstName'
 						/>
 					</FormControl>
-					<FormControl className='form-control name'>
+					<FormControl className='form-control name' variant='standard'>
 						<InputLabel htmlFor='infix'>Tussenvoegsel</InputLabel>
 						<Input
 							id='infix'
@@ -156,10 +244,9 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						/>
 					</FormControl>
 				</div>
-				<FormControl fullwidth className='form-control'>
+				<FormControl fullwidth className='form-control' variant='standard'>
 					<InputLabel htmlFor='lastname'>Achternaam</InputLabel>
 					<Input
-						required
 						id='lastname'
 						fullwidth
 						className='form-input'
@@ -169,31 +256,31 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					/>
 				</FormControl>
 				<div className='inline-container'>
-					<FormControl className='form-control address'>
+					<FormControl className='form-control address' variant='standard'>
 						<InputLabel htmlFor='zipCode'>Postcode</InputLabel>
 						<Input
-							required
 							id='zipCode'
+							onBlur={handleBlurZip}
 							className='zipCode-input'
 							value={formValues.zipCode}
 							onChange={handleChange}
 							name='zipCode'
 						/>
 					</FormControl>
-					<FormControl className='form-control address'>
+					<FormControl className='form-control address' variant='standard'>
 						<InputLabel htmlFor='house-number'>Huisnummer</InputLabel>
 						<Input
-							required
 							id='house-number'
 							className='house-number-input'
 							type='number'
+							onBlur={handleBlurNumber}
 							value={formValues.houseNumber}
 							onChange={handleChange}
 							name='houseNumber'
 						/>
 					</FormControl>
-					<FormControl className='form-control address'>
-						<InputLabel htmlFor='add-on'>toevoeging</InputLabel>
+					<FormControl className='form-control address' variant='standard'>
+						<InputLabel htmlFor='add-on'>Toevoeging</InputLabel>
 						<Input
 							id='add-on'
 							className='add-on-input'
@@ -204,36 +291,33 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					</FormControl>
 				</div>
 				<div className='inline-container'>
-					<FormControl className='form-control street'>
+					<FormControl className='form-control street' variant='standard'>
 						<InputLabel htmlFor='street'>Straat</InputLabel>
 						<Input
-							required
+							disabled
 							id='street'
 							className='street-input'
 							value={formValues.street}
-							onChange={handleChange}
 							name='street'
 						/>
 					</FormControl>
-					<FormControl className='form-control city'>
+					<FormControl className='form-control city' variant='standard'>
 						<InputLabel htmlFor='city'>Plaats</InputLabel>
 						<Input
-							required
+							disabled
 							id='city'
 							className='city-input'
 							value={formValues.city}
-							onChange={handleChange}
 							name='city'
 						/>
 					</FormControl>
 				</div>
 				<div className='inline-container'>
-					<FormControl className='form-control birthdate'>
+					<FormControl className='form-control birthdate' variant='standard'>
 						<InputLabel htmlFor='birthdate' shrink={true}>
 							Geboortedatum
 						</InputLabel>
 						<Input
-							required
 							id='birthdate'
 							className='birthdate-input'
 							type='date'
@@ -245,10 +329,9 @@ const GiftForm = ({ setSubmitted, setData }) => {
 							name='birthdate'
 						/>
 					</FormControl>
-					<FormControl className='form-control phone'>
+					<FormControl className='form-control phone' variant='standard'>
 						<InputLabel htmlFor='phone'>Telefoonnummer</InputLabel>
 						<Input
-							required
 							id='phone'
 							className='phone-input'
 							type='tel'
@@ -258,10 +341,9 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						/>
 					</FormControl>
 				</div>
-				<FormControl fullwidth className='form-control'>
+				<FormControl fullwidth className='form-control' variant='standard'>
 					<InputLabel htmlFor='email'>E-mailadres</InputLabel>
 					<Input
-						required
 						id='email'
 						fullwidth
 						type='email'
@@ -275,7 +357,6 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					control={
 						<Checkbox
 							color='success'
-							required={true}
 							sx={{
 								marginTop: '-40px',
 							}}
@@ -291,20 +372,14 @@ const GiftForm = ({ setSubmitted, setData }) => {
 									className='non-active-link'>
 									voorwaarden
 								</a>{' '}
-								en wil de e-mailnieuwsbrief ontvangen van{' '}
-								<a
-									href='https://meervoormamas.nl'
-									rel='noreferrer'
-									target='_blank'>
-									meervoormamas.nl
-								</a>
-								, Chubb, Kinderboekerij en Lucardi. Kinderboekerij en Chubb
-								mogen mij tevens telefonisch benaderen met een interessante
+								en wil de e-mailnieuwsbrief ontvangen van meervoormamas.nl,
+								Chubb, Kinderboekerij en Lucardi. Kinderboekerij en Chubb mogen
+								mij tevens telefonisch benaderen met een interessante
 								aanbieding.
 							</span>
 						</div>
 					}
-					labelsize='14px'
+					sx={{ marginTop: '15px', marginBottom: '15px' }}
 				/>
 				<BootstrapDialog
 					onClose={handleClose}
@@ -461,6 +536,13 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						</Button>
 					</DialogActions>
 				</BootstrapDialog>
+				<p
+					className='errorMessage'
+					style={{
+						display: displayError,
+					}}>
+					{errorMessage}
+				</p>
 				<FormControl fullwidth className='form-control'>
 					<input
 						id='submit'

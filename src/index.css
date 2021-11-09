@@ -181,10 +181,6 @@ hr {
 	width: 100% !important;
 }
 
-.birthdate-input {
-	width: 95% !important;
-}
-
 .phone-input {
 	width: 100% !important;
 }
@@ -258,4 +254,18 @@ hr {
 	background-color: #ff5252;
 	color: white;
 	border-radius: 5px;
+}
+
+.PrivatePickersMonth-root {
+	background-color: white !important;
+	border: none !important;
+}
+
+.PrivatePickersMonth-root:hover {
+	background-color: #eeeeee !important;
+}
+
+.Mui-error:after {
+	border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
+	transform: none !important;
 }

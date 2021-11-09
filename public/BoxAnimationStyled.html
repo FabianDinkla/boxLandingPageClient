@@ -88,27 +88,27 @@
 					}
 				}).prototype = p = new cjs.MovieClip()
 				// symbols:
-				;(lib.CachedBmp_14 = function () {
+				;(lib.CachedBmp_6 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(0)
 				}).prototype = p = new cjs.Sprite()
-				;(lib.CachedBmp_13 = function () {
+				;(lib.CachedBmp_5 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(1)
 				}).prototype = p = new cjs.Sprite()
-				;(lib.CachedBmp_18 = function () {
+				;(lib.CachedBmp_4 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(2)
 				}).prototype = p = new cjs.Sprite()
-				;(lib.CachedBmp_17 = function () {
+				;(lib.CachedBmp_3 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(3)
 				}).prototype = p = new cjs.Sprite()
-				;(lib.CachedBmp_16 = function () {
+				;(lib.CachedBmp_2 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(4)
 				}).prototype = p = new cjs.Sprite()
-				;(lib.CachedBmp_15 = function () {
+				;(lib.CachedBmp_1 = function () {
 					this.initialize(ss['BoxAnimationStyled_atlas_1'])
 					this.gotoAndStop(5)
 				}).prototype = p = new cjs.Sprite()
@@ -285,9 +285,9 @@
 					props.reversed = reversed
 					cjs.MovieClip.apply(this, [props])
 					// Layer_1
-					this.instance = new lib.CachedBmp_14()
+					this.instance = new lib.CachedBmp_6()
 					this.instance.setTransform(3.95, 42.4, 0.3246, 0.3246)
-					this.instance_1 = new lib.CachedBmp_13()
+					this.instance_1 = new lib.CachedBmp_5()
 					this.instance_1.setTransform(0, 0, 0.3246, 0.3246)
 					this.timeline.addTween(
 						cjs.Tween.get({})
@@ -838,13 +838,13 @@
 					props.reversed = reversed
 					cjs.MovieClip.apply(this, [props])
 					// Layer_1
-					this.instance = new lib.CachedBmp_16()
+					this.instance = new lib.CachedBmp_2()
 					this.instance.setTransform(19.7, 17.25, 0.5, 0.5)
-					this.instance_1 = new lib.CachedBmp_15()
+					this.instance_1 = new lib.CachedBmp_1()
 					this.instance_1.setTransform(0, 0, 0.5, 0.5)
-					this.instance_2 = new lib.CachedBmp_18()
+					this.instance_2 = new lib.CachedBmp_4()
 					this.instance_2.setTransform(19.7, 17.25, 0.5, 0.5)
-					this.instance_3 = new lib.CachedBmp_17()
+					this.instance_3 = new lib.CachedBmp_3()
 					this.instance_3.setTransform(0, 0, 0.5, 0.5)
 					this.timeline.addTween(
 						cjs.Tween.get({})
@@ -2491,6 +2491,12 @@
 						}
 						var root = this
 						this.buttonb.addEventListener('click', openAni)
+						this.boxcap.addEventListener('click', openAni)
+						this.boxopen.addEventListener('click', openAni)
+						this.sticker.addEventListener('click', openAni)
+						this.boxcap.cursor = 'pointer'
+						this.boxopen.cursor = 'pointer'
+						this.sticker.cursor = 'pointer'
 						this.starDown1.visible = false
 						this.starDown2.visible = false
 						this.starDown3.visible = false
@@ -2546,6 +2552,12 @@
 							}, 10)
 						}
 						function openAni() {
+							root.boxcap.removeEventListener('click', openAni)
+							root.boxopen.removeEventListener('click', openAni)
+							root.sticker.removeEventListener('click', openAni)
+							root.boxcap.cursor = 'default'
+							root.boxopen.cursor = 'default'
+							root.sticker.cursor = 'default'
 							fadeOutButtonsAndArrow()
 							setTimeout(() => {
 								root.boxcap.visible = false
@@ -3001,7 +3013,7 @@
 				var ss = comp.getSpriteSheet()
 				var queue = evt.target
 				var ssMetadata = lib.ssMetadata
-				for (var i = 0; i < ssMetadata.length; i++) {
+				for (i = 0; i < ssMetadata.length; i++) {
 					ss[ssMetadata[i].name] = new createjs.SpriteSheet({
 						images: [queue.getResult(ssMetadata[i].name)],
 						frames: ssMetadata[i].frames,
@@ -3028,19 +3040,19 @@
 		</script>
 		<!-- write your code here -->
 	</head>
-	<body onload="init();" className="child-body">
+	<body onload="init();" style="margin: 0px">
 		<div
 			id="animation_container"
 			style="
 				background-color: rgba(255, 255, 255, 1);
-				max-width: 1000px;
-				max-height: 750px;
+				width: 900px;
+				height: 750px;
 			"
 		>
 			<canvas
 				id="canvas"
-				max-width="1000"
-				max-height="750"
+				width="900"
+				height="750"
 				style="
 					position: absolute;
 					display: block;
@@ -3052,7 +3064,7 @@
 				style="
 					pointer-events: none;
 					overflow: hidden;
-					max-width: 1000px;
+					width: 900px;
 					height: 750px;
 					position: absolute;
 					left: 0px;

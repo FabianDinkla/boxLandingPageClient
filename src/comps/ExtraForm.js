@@ -44,11 +44,16 @@ const ExtraForm = ({ setSubmitted, setData, submitted }) => {
 		e.preventDefault()
 		const { name, value } = e.target
 		setFormValues({ ...formValues, [name]: value })
+		console.log(
+			[today.year, today.month, today.day] +
+				'  ' +
+				[formValues.dueDateYear, formValues.dueDateMonth, formValues.dueDateDay]
+		)
 	}
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
-		if (formValues.kids === undefined || !formValues.pregnant) {
+		if (typeof formValues.kids !== 'number' || !formValues.pregnant) {
 			setErrorMessage('Er zijn 1 of meer verplichte velden niet ingevuld!')
 			setDisplayError('block')
 		} else if (
@@ -87,6 +92,19 @@ const ExtraForm = ({ setSubmitted, setData, submitted }) => {
 				'Er zijn niet even veel geboortedata als kinderen ingevuld!'
 			)
 			setDisplayError('block')
+		} else if (
+			formValues.pregnant === 'wel' &&
+			compareDate(
+				{
+					day: formValues.dueDateDay,
+					month: formValues.dueDateMonth,
+					year: formValues.dueDateYear,
+				},
+				today
+			)
+		) {
+			setErrorMessage('De uitrekendatum mag niet eerder zijn dan vandaag!')
+			setDisplayError('block')
 		} else {
 			setDisplayError('none')
 			setErrorMessage('')
@@ -98,6 +116,32 @@ const ExtraForm = ({ setSubmitted, setData, submitted }) => {
 	const date = new Date()
 	const currentYear = date.getFullYear()
 	const nextYear = currentYear + 1
+	let mm = date.getMonth() + 1
+	let dd = date.getDate()
+
+	if (dd < 10) {
+		dd = '0' + dd
+	}
+
+	if (mm < 10) {
+		mm = '0' + mm
+	}
+
+	const today = { day: dd, month: mm, year: currentYear }
+
+	const compareDate = (dueDate, todayDate) => {
+		const dueDateInstance = new Date(dueDate.year, dueDate.month, dueDate.day)
+		const todayDateInstance = new Date(
+			todayDate.year,
+			todayDate.month,
+			todayDate.day
+		)
+		if (dueDateInstance < todayDateInstance) {
+			return true
+		} else {
+			return false
+		}
+	}
 
 	return (
 		<div>

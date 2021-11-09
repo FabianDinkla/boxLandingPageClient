@@ -18,6 +18,12 @@ import Typography from '@mui/material/Typography'
 import PropTypes from 'prop-types'
 import Button from '@mui/material/Button'
 import Axios from 'axios'
+import TextField from '@mui/material/TextField'
+import AdapterDateFns from '@mui/lab/AdapterDateFns'
+import LocalizationProvider from '@mui/lab/LocalizationProvider'
+import DatePicker from '@mui/lab/DatePicker'
+import nlLocale from 'date-fns/locale/nl'
+import * as moment from 'moment'
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 	'& .MuiDialogContent-root': {
@@ -57,6 +63,7 @@ BootstrapDialogTitle.propTypes = {
 }
 
 const GiftForm = ({ setSubmitted, setData }) => {
+	const [date, setDate] = useState('')
 	const [formValues, setFormValues] = useState({
 		gender: '',
 		firstName: '',
@@ -67,7 +74,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		addOn: '',
 		street: '',
 		city: '',
-		birthdate: '',
+		birthdate: moment(date).format('YYYY-MM-DD'),
 		phoneNumber: '',
 		email: '',
 	})
@@ -192,11 +199,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		mm = '0' + mm
 	}
 
-	today = yyyy + '-' + mm + '-' + dd
-	useEffect(() => {
-		document.getElementById('birthdate').setAttribute('max', today)
-		document.getElementById('birthdate').setAttribute('min', '1899-01-01')
-	}, [])
+	today = dd + '-' + mm + '-' + yyyy
 
 	return (
 		<div>
@@ -317,17 +320,33 @@ const GiftForm = ({ setSubmitted, setData }) => {
 						<InputLabel htmlFor='birthdate' shrink={true}>
 							Geboortedatum
 						</InputLabel>
-						<Input
-							id='birthdate'
-							className='birthdate-input'
-							type='date'
-							min='1899-01-01'
-							max='2021-10-25'
-							placeholder='dd-mm-yyyy'
-							value={formValues.birthdate}
-							onChange={handleChange}
-							name='birthdate'
-						/>
+						<LocalizationProvider
+							dateAdapter={AdapterDateFns}
+							locale={nlLocale}>
+							<DatePicker
+								id='birthdate'
+								name='birthdate'
+								disableFuture
+								mask='__-__-____'
+								openTo='year'
+								views={['year', 'month', 'day']}
+								value={date}
+								onChange={(newValue) => {
+									setDate(newValue)
+								}}
+								renderInput={(params) => (
+									<TextField
+										{...params}
+										helperText={null}
+										variant='standard'
+										sx={{
+											maxWidth: '95% !important',
+											marginTop: '16px !important',
+										}}
+									/>
+								)}
+							/>
+						</LocalizationProvider>
 					</FormControl>
 					<FormControl className='form-control phone' variant='standard'>
 						<InputLabel htmlFor='phone'>Telefoonnummer</InputLabel>

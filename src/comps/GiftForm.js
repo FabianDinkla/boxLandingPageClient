@@ -200,11 +200,10 @@ const GiftForm = ({ setSubmitted, setData }) => {
 	}
 
 	today = dd + '-' + mm + '-' + yyyy
+	let todayFormatted = today.split('-').reverse().join('-')
 
-	let minAge = new Date(today)
+	let minAge = new Date(todayFormatted)
 	minAge.setFullYear(minAge.getFullYear() - 18)
-	minAge.setMonth(minAge.getMonth() + 1)
-	minAge.setDate(minAge.getDate() - 1)
 
 	return (
 		<div>
@@ -334,7 +333,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 								disableFuture
 								mask='__-__-____'
 								openTo='year'
-								minDate={new Date('01-01-1920')}
+								minDate={new Date('1920-01-01')}
 								maxDate={minAge}
 								views={['year', 'month', 'day']}
 								value={date}

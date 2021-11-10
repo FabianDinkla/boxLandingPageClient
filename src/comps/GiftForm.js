@@ -95,18 +95,15 @@ const GiftForm = ({ setSubmitted, setData }) => {
 	const [errorMessage, setErrorMessage] = useState('')
 	const [displayError, setDisplayError] = useState('none')
 	const [zipNotFound, setZipNotFound] = useState(false)
+	const [disabled, setDisabled] = useState(true)
 
 	useEffect(() => {
 		const fetchZipData = async () => {
-			if (formValues.zipCode != '' && formValues.houseNumber != '') {
-				const res = await Axios.get(
-					`https://postcode.tech/api/v1/postcode?postcode=${formValues.zipCode}&number=${formValues.houseNumber}`,
-					{
-						headers: {
-							Authorization: 'Bearer 3e2f03dc-8cac-4ffc-bfeb-a94b0b74d6f8',
-						},
-					}
-				)
+			if (formValues.zipCode !== '' && formValues.houseNumber !== '') {
+				await Axios.post('https://backend-mvmpage.herokuapp.com/api/location', {
+					zipCode: formValues.zipCode,
+					houseNumber: formValues.houseNumber,
+				})
 					.then((res) => {
 						if (res.status === 200) {
 							const resStreet = res.data.street
@@ -115,11 +112,13 @@ const GiftForm = ({ setSubmitted, setData }) => {
 							setDisplayError('none')
 							setErrorMessage('')
 							setZipNotFound(false)
+							setDisabled(true)
 						}
 					})
 					.catch((err) => {
 						if (err.response.status === 404) {
 							setZipNotFound(true)
+							setDisabled(false)
 						}
 					})
 			}
@@ -161,7 +160,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 			setDisplayError('block')
 		} else if (zipNotFound) {
 			setErrorMessage(
-				'Er is geen adres gevonden bij deze postcode en huisnummer combinatie!'
+				'Geen adres gevonden bij postcode en huisnummer, vul zelf je straat en plaats in!'
 			)
 			setDisplayError('block')
 		} else if (!formValues.street || !formValues.city) {
@@ -301,21 +300,23 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					<FormControl className='form-control street' variant='standard'>
 						<InputLabel htmlFor='street'>Straat</InputLabel>
 						<Input
-							disabled
+							disabled={disabled}
 							id='street'
 							className='street-input'
 							value={formValues.street}
 							name='street'
+							onChange={handleChange}
 						/>
 					</FormControl>
 					<FormControl className='form-control city' variant='standard'>
 						<InputLabel htmlFor='city'>Plaats</InputLabel>
 						<Input
-							disabled
+							disabled={disabled}
 							id='city'
 							className='city-input'
 							value={formValues.city}
 							name='city'
+							onChange={handleChange}
 						/>
 					</FormControl>
 				</div>

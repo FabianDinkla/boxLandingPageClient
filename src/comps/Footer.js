@@ -8,16 +8,16 @@ const Footer = () => {
 		<Container style={{ textAlign: 'center' }}>
 			<hr />
 			<Row className='align-items-center'>
-				<Col>
+				<Col xs={6} md={3}>
 					<img src='images/logo-kinderboekerij.svg' alt='' width='170px' />
 				</Col>
-				<Col>
+				<Col xs={6} md={3}>
 					<img src='images/logo-mvm.svg' alt='' width='170px' />
 				</Col>
-				<Col>
+				<Col xs={6} md={3}>
 					<img src='images/logo-chubb.png' alt='' width='170px' />
 				</Col>
-				<Col>
+				<Col xs={6} md={3}>
 					<img src='images/logo-lucardi.svg' alt='' width='170px' />
 				</Col>
 			</Row>

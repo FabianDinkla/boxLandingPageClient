@@ -46,9 +46,10 @@
 	}
 }
 
-body.top-body {
+body {
 	margin: 0 auto;
-	max-width: 1300px;
+	max-width: 1300px !important;
+	overflow-x: hidden !important;
 }
 
 a {

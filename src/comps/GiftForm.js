@@ -158,14 +158,12 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		} else if (!emailRegex.test(formValues.email)) {
 			setErrorMessage('Het e-mailadres is ongeldig!')
 			setDisplayError('block')
-		} else if (zipNotFound) {
+		} else if (
+			(zipNotFound && disabled == false && !formValues.street) ||
+			!formValues.city
+		) {
 			setErrorMessage(
 				'Geen adres gevonden bij postcode en huisnummer, vul zelf je straat en plaats in!'
-			)
-			setDisplayError('block')
-		} else if (!formValues.street || !formValues.city) {
-			setErrorMessage(
-				'Er is iets misgegaan met het adres. Probeer het adres eens handmatig in te typen!'
 			)
 			setDisplayError('block')
 		} else {
@@ -372,7 +370,6 @@ const GiftForm = ({ setSubmitted, setData }) => {
 					<Input
 						id='email'
 						fullwidth
-						type='email'
 						className='form-input'
 						value={formValues.email}
 						onChange={handleChange}

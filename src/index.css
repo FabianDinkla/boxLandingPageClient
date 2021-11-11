@@ -305,3 +305,8 @@ hr {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.42) !important;
 	transform: none !important;
 }
+
+.MuiYearPicker-root {
+	flex-direction: row-reverse !important;
+	flex-wrap: wrap-reverse !important;
+}

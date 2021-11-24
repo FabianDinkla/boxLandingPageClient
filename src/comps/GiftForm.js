@@ -63,7 +63,6 @@ BootstrapDialogTitle.propTypes = {
 }
 
 const GiftForm = ({ setSubmitted, setData }) => {
-	const [date, setDate] = useState('')
 	const [formValues, setFormValues] = useState({
 		gender: '',
 		firstName: '',
@@ -74,7 +73,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		addOn: '',
 		street: '',
 		city: '',
-		birthdate: moment(date).format('YYYY-MM-DD'),
+		birthdate: '',
 		phoneNumber: '',
 		email: '',
 	})
@@ -100,7 +99,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 	useEffect(() => {
 		const fetchZipData = async () => {
 			if (formValues.zipCode !== '' && formValues.houseNumber !== '') {
-				await Axios.post('https://backend-mvmpage.herokuapp.com/api/location', {
+				await Axios.post('http://localhost:3001/api/location', {
 					zipCode: formValues.zipCode,
 					houseNumber: formValues.houseNumber,
 				})
@@ -152,7 +151,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 		} else if (!zipCodeRegex.test(formValues.zipCode)) {
 			setErrorMessage('De ingevulde postcode is niet geldig!')
 			setDisplayError('block')
-		} else if (formValues.phoneNumber.length != 10) {
+		} else if (formValues.phoneNumber.length !== 10) {
 			setErrorMessage('Het telefoonnummer moet exact 10 cijfers lang zijn!')
 			setDisplayError('block')
 		} else if (!emailRegex.test(formValues.email)) {
@@ -335,9 +334,12 @@ const GiftForm = ({ setSubmitted, setData }) => {
 								minDate={new Date('1920-01-01')}
 								maxDate={minAge}
 								views={['year', 'month', 'day']}
-								value={date}
+								value={formValues.birthdate}
 								onChange={(newValue) => {
-									setDate(newValue)
+									setFormValues({
+										...formValues,
+										birthdate: moment(newValue).format('YYYY-MM-DD'),
+									})
 								}}
 								renderInput={(params) => (
 									<TextField

@@ -16,6 +16,7 @@ import NotFound from './pages/NotFound'
 function App() {
 	const [notfound, setNotfound] = useState(false)
 	const [homeClass, setHomeClass] = useState('')
+	const [ref, setRef] = useState('')
 
 	useEffect(() => {
 		if (window.location.pathname === '/404') {
@@ -40,8 +41,12 @@ function App() {
 					<Header homeClass={homeClass} />
 				)}
 				<Switch>
-					<Route path='/' component={Home} exact />
-					<Route path='/cadeaupakket' component={Opened} exact />
+					<Route path='/' exact>
+						<Home setRef={setRef} />
+					</Route>
+					<Route path='/cadeaupakket' exact>
+						<Opened referer={ref} />
+					</Route>
 					<Route path='/bedankt' component={Bedankt} exact />
 					<Route path='/404' component={NotFound} />
 					<Redirect to='/404' />

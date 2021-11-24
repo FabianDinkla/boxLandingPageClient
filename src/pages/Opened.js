@@ -6,7 +6,7 @@ import GiftForm from '../comps/GiftForm'
 import ExtraForm from '../comps/ExtraForm'
 import Axios from 'axios'
 
-const Opened = () => {
+const Opened = ({ referer }) => {
 	const [submittedFirst, setSubmittedFirst] = useState(false)
 	const [submittedSecond, setSubmittedSecond] = useState(false)
 	const [giftData, setGiftData] = useState({})
@@ -16,6 +16,7 @@ const Opened = () => {
 		...giftData,
 		...extraData,
 		ip,
+		referer,
 	}
 
 	const getIpAddress = async () => {
@@ -29,10 +30,7 @@ const Opened = () => {
 
 	useEffect(() => {
 		const sendData = async () => {
-			await Axios.post(
-				'https://backend-mvmpage.herokuapp.com/api/data',
-				topData
-			)
+			await Axios.post('http://localhost:3001/api/data', topData)
 				.then((res) => {
 					if (res.status === 200) {
 						window.location.href = '/bedankt'

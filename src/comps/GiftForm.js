@@ -99,7 +99,7 @@ const GiftForm = ({ setSubmitted, setData }) => {
 	useEffect(() => {
 		const fetchZipData = async () => {
 			if (formValues.zipCode !== '' && formValues.houseNumber !== '') {
-				await Axios.post('http://localhost:3001/api/location', {
+				await Axios.post('https://backend-mvmpage.herokuapp.com/api/location', {
 					zipCode: formValues.zipCode,
 					houseNumber: formValues.houseNumber,
 				})

@@ -30,7 +30,10 @@ const Opened = ({ referer }) => {
 
 	useEffect(() => {
 		const sendData = async () => {
-			await Axios.post('http://localhost:3001/api/data', topData)
+			await Axios.post(
+				'https://backend-mvmpage.herokuapp.com/api/data',
+				topData
+			)
 				.then((res) => {
 					if (res.status === 200) {
 						window.location.href = '/bedankt'
